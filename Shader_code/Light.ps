@@ -1,0 +1,86 @@
+////////////////////////////////////////////////////////////////////////////////
+// Filename: texture.ps
+////////////////////////////////////////////////////////////////////////////////
+
+
+Texture2D shaderTexture[2];
+SamplerState SampleType;
+
+cbuffer LightBuffer
+{
+	float4 ambientColor;
+    float4 diffuseColor;
+    float3 lightDirection;
+    float specularPower;
+	float4 specularColor;
+};
+
+//////////////
+// TYPEDEFS //
+//////////////
+struct Pixel_InputType
+{
+    float4 position : SV_POSITION;
+    float2 tex : TEXCOORD0;
+	float3 normal : NORMAL;
+	float3 viewDirection: TEXCOORD01;
+};
+
+
+////////////////////////////////////////////////////////////////////////////////
+// Pixel Shader
+////////////////////////////////////////////////////////////////////////////////
+float4 LightPixelShader(Pixel_InputType input) : SV_TARGET
+{
+    float4 textureColor;
+	float4 textureColor2;
+	float4 blendColor;
+
+
+	float3 lightDir; //direction
+    float lightIntensity; //power
+    float4 color; 
+	float3 reflection; //color
+	float4 specular; //vector
+
+	textureColor = shaderTexture[0].Sample(SampleType, input.tex);
+	textureColor2 = shaderTexture[1].Sample(SampleType, input.tex);
+
+	blendColor= textureColor2 * textureColor * 1.0f;
+	//blendColor= textureColor2*0.5f + textureColor *0.5f;
+
+	blendColor=saturate(blendColor);
+
+	// Invert the light direction for calculations.
+    lightDir = -lightDirection;
+
+	// Calculate the amount of light on this pixel.
+    lightIntensity = saturate(dot(input.normal, lightDir)); //value clamp 0~1
+
+	 // Determine the final amount of diffuse color based on the diffuse color combined with the light intensity.
+    color = ambientColor;
+
+	specular=float4(0.0f,0.0f,0.0f,0.0f);
+	
+
+	if(lightIntensity>0.0f){
+	color += (diffuseColor * lightIntensity);
+
+	color=saturate(color);
+
+	reflection = normalize(2 * lightIntensity * input.normal - lightDir); 
+	specular = pow(saturate(dot(reflection, input.viewDirection)), specularPower)*specularColor;
+
+	}
+
+	color=saturate(color);
+
+	 // Multiply the texture pixel and the final diffuse color to get the final pixel color result.
+	 // blendColor is texture color
+	 color = color * blendColor;
+
+	 color = saturate(color + specular); // clamp 0.0~1.0
+
+
+	return color;
+}

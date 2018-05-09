@@ -1,0 +1,232 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="shader">
+      <UniqueIdentifier>{274f71c1-447f-48ae-9e84-54b6fdf423a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resource">
+      <UniqueIdentifier>{9c3f25b6-22f3-4924-bc42-24203612667e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pch">
+      <UniqueIdentifier>{c2979c1a-1dac-4b84-a8bd-fdbfcff59263}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\System">
+      <UniqueIdentifier>{0f246936-22f1-48cf-bca1-18c952b6221d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Font">
+      <UniqueIdentifier>{9616f883-0bbf-424e-a1e9-941efabc25e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Light">
+      <UniqueIdentifier>{4ed9b438-fca4-46de-8aec-8faedc6ad771}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\System\cpu,fps,time">
+      <UniqueIdentifier>{c4cba8d4-1123-46bd-b7d0-89574b8bd6c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Model">
+      <UniqueIdentifier>{e0545111-7fbd-4dcb-aa8e-a6596e723f58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Graphic">
+      <UniqueIdentifier>{77cbc042-946b-48dc-a12c-a82640c83d90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Texture">
+      <UniqueIdentifier>{4de66e4e-64fe-4522-babc-6066c387cce2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Font">
+      <UniqueIdentifier>{3498798a-4cbc-43b6-9f96-f29bd211835a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Light">
+      <UniqueIdentifier>{b525ca63-43f8-40bd-a1b2-e3219f46394c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Model">
+      <UniqueIdentifier>{a8949db4-a6a2-4878-b5c1-375d11ae9c87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Graphic">
+      <UniqueIdentifier>{0e0f067b-5ddc-497d-94e9-43a241f0a757}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\System">
+      <UniqueIdentifier>{204f1383-f146-4ded-b09b-513e93808e1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Texture">
+      <UniqueIdentifier>{efba99fc-8725-4f3e-b1a9-44d12fa2d530}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\System\cpu,time,fps">
+      <UniqueIdentifier>{509ca2a5-7d77-4aa5-890e-f6184547535e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source_code\Main.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Source_code\stdafx.cpp">
+      <Filter>pch</Filter>
+    </ClCompile>
+    <ClCompile Include="Source_code\Fontshaderclass.cpp">
+      <Filter>소스 파일\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="Source_code\Fontclass.cpp">
+      <Filter>소스 파일\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="Source_code\Bitmapclass.cpp">
+      <Filter>소스 파일\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Source_code\Textureclass.cpp">
+      <Filter>소스 파일\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Source_code\cameraclass.cpp">
+      <Filter>소스 파일\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Source_code\Textclass.cpp">
+      <Filter>소스 파일\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="Source_code\Cpuclass.cpp">
+      <Filter>소스 파일\System\cpu,time,fps</Filter>
+    </ClCompile>
+    <ClCompile Include="Source_code\Fpsclass.cpp">
+      <Filter>소스 파일\System\cpu,time,fps</Filter>
+    </ClCompile>
+    <ClCompile Include="Source_code\Timeclass.cpp">
+      <Filter>소스 파일\System\cpu,time,fps</Filter>
+    </ClCompile>
+    <ClCompile Include="Source_code\D3dclass.cpp">
+      <Filter>소스 파일\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source_code\Inputclass.cpp">
+      <Filter>소스 파일\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source_code\Systemclass.cpp">
+      <Filter>소스 파일\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source_code\Graphicsclass.cpp">
+      <Filter>소스 파일\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Source_code\Lightclass.cpp">
+      <Filter>소스 파일\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Source_code\Lightshaderclass.cpp">
+      <Filter>소스 파일\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Source_code\Modelclass.cpp">
+      <Filter>소스 파일\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Source_code\obj_parser.cpp">
+      <Filter>소스 파일\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Source_code\LightFX.cpp">
+      <Filter>소스 파일\Light</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source_code\stdafx.h">
+      <Filter>pch</Filter>
+    </ClInclude>
+    <ClInclude Include="Header_file\pch.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Header_file\D3dclass.h">
+      <Filter>헤더 파일\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Header_file\Inputclass.h">
+      <Filter>헤더 파일\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Header_file\SystemClass.h">
+      <Filter>헤더 파일\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Header_file\Fontshaderclass.h">
+      <Filter>헤더 파일\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Header_file\Textclass.h">
+      <Filter>헤더 파일\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Header_file\Lightclass.h">
+      <Filter>헤더 파일\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Header_file\Fontclass.h">
+      <Filter>헤더 파일\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Header_file\Cpuclass.h">
+      <Filter>헤더 파일\System\cpu,fps,time</Filter>
+    </ClInclude>
+    <ClInclude Include="Header_file\FpsClass.h">
+      <Filter>헤더 파일\System\cpu,fps,time</Filter>
+    </ClInclude>
+    <ClInclude Include="Header_file\Timeclass.h">
+      <Filter>헤더 파일\System\cpu,fps,time</Filter>
+    </ClInclude>
+    <ClInclude Include="Header_file\Lightshaderclass.h">
+      <Filter>헤더 파일\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Header_file\obj_parser.h">
+      <Filter>헤더 파일\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Header_file\Modelclass.h">
+      <Filter>헤더 파일\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Header_file\Graphicsclass.h">
+      <Filter>헤더 파일\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Header_file\Cameraclass.h">
+      <Filter>헤더 파일\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Header_file\Bitmapclass.h">
+      <Filter>헤더 파일\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Header_file\Textureclass.h">
+      <Filter>헤더 파일\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Header_file\LightFX.h">
+      <Filter>헤더 파일\Light</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shader_code\Light.vs">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="Shader_code\Font.ps">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="Shader_code\Font.vs">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="Shader_code\Light.ps">
+      <Filter>shader</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shader_code\Light.fx">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader_code\color.fx">
+      <Filter>shader</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resource\font.dds">
+      <Filter>resource</Filter>
+    </Image>
+    <Image Include="Resource\sample_img.dds">
+      <Filter>resource</Filter>
+    </Image>
+    <Image Include="Resource\uv_snap.dds">
+      <Filter>resource</Filter>
+    </Image>
+    <Image Include="Resource\uv_snap2.dds">
+      <Filter>resource</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Resource\Font.txt">
+      <Filter>resource</Filter>
+    </Text>
+    <Text Include="Resource\model.txt">
+      <Filter>resource</Filter>
+    </Text>
+  </ItemGroup>
+</Project>
