@@ -41,10 +41,11 @@ public:
 
 	bool Initialize(int, int, HWND);
 	void Shutdown();
-	bool Frame(int, int, int, int,float);
+	bool Frame(int, int);
+	bool SetHardWareData(int,int,int,int,float);
 
 private:
-	bool Render(int, int);
+	bool Render();
 	bool setValue();
 
 private:
@@ -55,6 +56,11 @@ private:
 	LightFxClass* m_LightFx;
 	LightClass* m_Light;
 	TextClass* m_Text;
+
+	int m_mouseX;
+	int m_mouseY;
+
+
 };
 
 #endif

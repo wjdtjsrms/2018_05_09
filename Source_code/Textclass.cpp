@@ -109,7 +109,7 @@ void TextClass::Shutdown(){
 	return;
 }
 
-
+//for(size(m_setence)) setenceType[] 아하?
 bool TextClass::Render(ID3D11DeviceContext* deivceContext, XMMATRIX& worldMatrix, XMMATRIX& orthoMatrix){
 	bool result;
 
@@ -367,6 +367,7 @@ void TextClass::ReleaseSentence(SentenceType** sentence)
 	return;
 }
 
+//int[] 출력 char[] 출력 등등 형식에 따라 나누는게 더 좋을듯 templete은 느리겠지?
 bool TextClass::SetMousePosition(int mouseX, int mouseY, ID3D11DeviceContext* deviceContext){
 	char tempString[16];
 	char mouseString[16];

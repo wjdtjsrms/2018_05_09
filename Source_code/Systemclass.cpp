@@ -210,10 +210,17 @@ bool SystemClass::Frame()
 	m_Input->GetMouseLocation(mouseX, mouseY);
 	m_Input->GetPlayerLocation(player_X, player_Y);
 
-	result = m_Graphics->Frame(mouseX, mouseY, m_Fps->GetFps(), m_Cpu->GetCpuPercentage(), m_Timer->GetTime());
+	result = m_Graphics->SetHardWareData(mouseX, mouseY, m_Fps->GetFps(), m_Cpu->GetCpuPercentage(), m_Timer->GetTime());
+	if (!result) {
+		return false;
+	}
+
+	result = m_Graphics->Frame(mouseX, mouseY);
 	if (!result){
 		return false;
 	}
+
+
 	return true;
 }
 

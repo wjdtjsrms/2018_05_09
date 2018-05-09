@@ -32,8 +32,6 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	bool result;
 	XMMATRIX BaseViewMatrix;
 
-
-
 	m_D3D = new D3DClass;
 	if(!m_D3D)
 	{
@@ -84,24 +82,9 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	result = m_LightFx->Initialize(m_D3D->GetDevice(), hwnd);
 	if (!result)
 	{
-		MessageBox(hwnd, L"Could not initialize the light shader object.", L"Error", MB_OK);
+		MessageBox(hwnd, L"Could not initialize the light fx object.", L"Error", MB_OK);
 		return false;
 	}
-
-	//// Create the light shader object.
-	//m_LightShader = new LightShaderClass;
-	//if (!m_LightShader)
-	//{
-	//	return false;
-	//}
-
-	//// Initialize the light shader object.
-	//result = m_LightShader->Initialize(m_D3D->GetDevice(), hwnd);
-	//if (!result)
-	//{
-	//	MessageBox(hwnd, L"Could not initialize the light shader object.", L"Error", MB_OK);
-	//	return false;
-	//}
 
 	m_Light = new LightClass;
 	if (!m_Light)
@@ -135,11 +118,9 @@ void GraphicsClass::Shutdown()
 {
 
 	if (m_Text){
-		
 		m_Text->Shutdown();
 		delete m_Text;
 		m_Text = 0;
-
 	}
 
 
@@ -190,11 +171,32 @@ void GraphicsClass::Shutdown()
 }
 
 
-bool GraphicsClass::Frame(int mouseX, int mouseY, int fps, int cpuPercent, float time)
+//매 frame 마다 실행되는 함수
+bool GraphicsClass::Frame(int mouseX, int mouseY)
 {
 	bool result;
 
+	// 그래픽 씬 그리기
+	// 굳이 여기서 인자 값을 전달하는게 맞을까?
+	result = Render();
+	if(!result)
+	{
+		return false;
+	}
 
+	return true;
+}
+
+bool GraphicsClass::SetHardWareData(int mouseX, int mouseY, int fps, int cpuPercent, float time)
+{
+
+	bool result;
+
+	//typdef MousePosition
+	m_mouseX = mouseX;
+	m_mouseY = mouseY;
+
+	//m_sentence1에 값을 채워넣는 방식
 	result = m_Text->SetMousePosition(mouseX, mouseY, m_D3D->GetDeviceContext());
 	if (!result)
 	{
@@ -212,21 +214,12 @@ bool GraphicsClass::Frame(int mouseX, int mouseY, int fps, int cpuPercent, float
 	{
 		return false;
 	}
-	
-
-	// 그래픽 씬 그리기
-	// 굳이 여기서 인자 값을 전달하는게 맞을까?
-	result = Render(mouseX, mouseY);
-	if(!result)
-	{
-		return false;
-	}
 
 	return true;
 }
 
 
-bool GraphicsClass::Render(int mouseX, int mouseY)
+bool GraphicsClass::Render()
 {
 	XMMATRIX worldMatrix, viewMatrix, projectionMatrix,orthoMatrix;
 	XMVECTOR Direction, DiffuseColor, AmbeintColor, SpecularColor, CameraPostion;
@@ -238,8 +231,8 @@ bool GraphicsClass::Render(int mouseX, int mouseY)
 	float rotationX;
 	float rotationY;
 
-	rotationX = (float)XM_PI * (mouseX*0.0008f);
-	rotationY = (float)XM_PI * (mouseY*0.0008f);
+	rotationX = (float)XM_PI * (m_mouseX*0.0008f);
+	rotationY = (float)XM_PI * (m_mouseY*0.0008f);
 
 	
 	// 버퍼를 비우고 씬을 시작
@@ -272,11 +265,6 @@ bool GraphicsClass::Render(int mouseX, int mouseY)
 	//모델의 설정 값을 담은 device context 를 가져옴
 	m_Model->Render(m_D3D->GetDeviceContext());
 
-	//result = m_LightShader->Render(m_D3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix, Direction, DiffuseColor, AmbeintColor, CameraPostion, SpecularColor, SpecularPower, m_Model->GetTexture());
-	//if (!result)
-	//{
-	//	return false;
-	//}
 
 	// 주어진 값으로 fx파일 컴파일 및 실행
 	HR(result = m_LightFx->Render(m_D3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix, Direction, DiffuseColor, AmbeintColor, CameraPostion, SpecularColor, SpecularPower, m_Model->GetTexture()));
@@ -294,8 +282,6 @@ bool GraphicsClass::Render(int mouseX, int mouseY)
 	// 2d 렌더링을 위한 설정 끄기
 	m_D3D->TurnOffAlphaBlending();
 	m_D3D->TurnZBufferOn();
-
-
 
 	// 씬을 그린다
 	m_D3D->EndScene();
