@@ -8,14 +8,12 @@
 
 
 SystemClass::SystemClass()
-{
-	m_Input = 0;
-	m_Graphics = 0;
-	m_Fps = 0;
-	m_Cpu = 0;
-	m_Timer = 0;
-	
-}
+	:m_Input(0),
+	m_Graphics(0),
+	m_Fps(0),
+	m_Cpu(0),
+	m_Timer(0)
+{}
 
 
 SystemClass::SystemClass(const SystemClass& other)
@@ -51,7 +49,7 @@ bool SystemClass::Initialize()
 
 	// Initialize the input object.
 	result=m_Input->Initialize(m_hinstance, m_hwnd, screenWidth, screenHeight);
-	if (!result) {
+ 	if (!result) {
 		MessageBox(m_hwnd, L"Could not initialize the input object.", L"Error", MB_OK); 
 		return false;
 	}
@@ -62,6 +60,7 @@ bool SystemClass::Initialize()
 	m_Graphics = new GraphicsClass;
 	if(!m_Graphics)
 	{
+		
 		return false;
 	}
 
@@ -69,6 +68,7 @@ bool SystemClass::Initialize()
 	result = m_Graphics->Initialize(screenWidth, screenHeight, m_hwnd);
 	if(!result)
 	{
+		MessageBox(m_hwnd, L"Could not initialize the Graphics object.", L"Error", MB_OK);
 		return false;
 	}
 
@@ -208,9 +208,16 @@ bool SystemClass::Frame()
 	}
 	
 	m_Input->GetMouseLocation(mouseX, mouseY);
-	m_Input->GetPlayerLocation(player_X, player_Y);
 
-	result = m_Graphics->SetHardWareData(mouseX, mouseY, m_Fps->GetFps(), m_Cpu->GetCpuPercentage(), m_Timer->GetTime());
+	//WASD
+	m_Input->GetPlayerLocation(player_X, player_Y);
+	
+	GraphicsClass::MouseXY MousePosition;
+	
+	MousePosition.mouseX = mouseX;
+	MousePosition.mouseY = mouseY;
+
+	result = m_Graphics->SetHardWareData(MousePosition, m_Fps->GetFps(), m_Cpu->GetCpuPercentage(), m_Timer->GetTime() );
 	if (!result) {
 		return false;
 	}
@@ -302,9 +309,12 @@ void SystemClass::InitializeWindows(int& screenWidth, int& screenHeight)
 						    posX, posY, screenWidth, screenHeight, NULL, NULL, m_hinstance, NULL);
 
 	// Bring the window up on the screen and set it as main focus.
+
 	ShowWindow(m_hwnd, SW_SHOW);
 	SetForegroundWindow(m_hwnd);
 	SetFocus(m_hwnd);
+
+	UpdateWindow(m_hwnd);
 
 	// Hide the mouse cursor.
 	ShowCursor(true);

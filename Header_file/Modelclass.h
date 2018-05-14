@@ -16,8 +16,7 @@
 #include "textureclass.h"
 #include "obj_parser.h"
 
-using namespace std;
-using namespace DirectX;
+
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -28,9 +27,9 @@ class ModelClass
 private:
 	struct VertexType
 	{
-		XMFLOAT3 position; 
-;		XMFLOAT2 texture; 
-		XMFLOAT3 normal; 
+		DirectX::XMFLOAT3 position;
+;		DirectX::XMFLOAT2 texture;
+		DirectX::XMFLOAT3 normal;
 
 	};
 

@@ -34,7 +34,17 @@ const float SCREEN_NEAR = 0.1f;
 ////////////////////////////////////////////////////////////////////////////////
 class GraphicsClass
 {
+
+
 public:
+
+	//안 쓰거나 그냥 VECTOR 쓰는게 더 나을지두
+	typedef struct MousePosition {
+		int mouseX;
+		int	mouseY;
+
+	}MouseXY;
+
 	GraphicsClass();
 	GraphicsClass(const GraphicsClass&);
 	~GraphicsClass();
@@ -42,11 +52,12 @@ public:
 	bool Initialize(int, int, HWND);
 	void Shutdown();
 	bool Frame(int, int);
-	bool SetHardWareData(int,int,int,int,float);
+	bool SetHardWareData(MouseXY,int,int,float );
 
 private:
 	bool Render();
 	bool setValue();
+	void SetMemberVariable();
 
 private:
 	D3DClass* m_D3D;
@@ -59,8 +70,7 @@ private:
 
 	int m_mouseX;
 	int m_mouseY;
-
-
 };
+
 
 #endif

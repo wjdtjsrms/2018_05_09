@@ -5,17 +5,17 @@
 #include "stdafx.h"
 #include "../Header_file/modelclass.h"
 
+using namespace std;
+using namespace DirectX;
 
 ModelClass::ModelClass()
-{
-	m_vertexBuffer = 0;
-	m_indexBuffer = 0;
-	m_Texture = 0;
-	m_model = 0;
-	m_parser = 0;
-}
-
-
+	:m_vertexBuffer(0),
+	m_indexBuffer(0),
+	m_Texture(0),
+	m_model(0),
+	m_parser(0)
+{}
+// 명시해주는 이유는 기본 복사 생성자가 생성되지 말라고
 ModelClass::ModelClass(const ModelClass& other)
 {
 }

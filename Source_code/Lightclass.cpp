@@ -2,6 +2,8 @@
 #include "stdafx.h"
 #include "../Header_file/Lightclass.h"
 
+using namespace DirectX;
+
 LightClass::LightClass()
 {
 }

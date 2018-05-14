@@ -3,7 +3,7 @@
 
 
 #include "pch.h"
-using namespace DirectX;
+
 
 
 class CameraClass
@@ -16,17 +16,19 @@ public:
 	void SetPosition(float, float, float);
 	void SetRotation(float, float, float);
 
-	XMFLOAT3 GetPosition();
-	XMFLOAT3 GetRotation();
+	DirectX::XMFLOAT3 GetPosition();
+	DirectX::XMFLOAT3 GetRotation();
 
 	void Render();
-	void GetViewMatrix(XMMATRIX&);
+	void GetViewMatrix(DirectX::XMMATRIX&);
+
+	DirectX::XMMATRIX& GetViewMatrix2();
 
 private:
 	float m_positionX, m_positionY, m_positionZ;
 	float m_rotationX, m_rotationY, m_rotationZ;
 
-	XMFLOAT4X4 m_viewMatrix;
+	DirectX::XMFLOAT4X4 m_viewMatrix;
 };
 
 #endif

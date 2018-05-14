@@ -178,6 +178,7 @@
     <ClCompile Include="Source_code\Fpsclass.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Source_code\GeometryGenerator.cpp" />
     <ClCompile Include="Source_code\Graphicsclass.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
     </ClCompile>
@@ -195,6 +196,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Source_code\MathHelper.cpp" />
     <ClCompile Include="Source_code\Modelclass.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
     </ClCompile>
@@ -225,11 +227,13 @@
     <ClInclude Include="Header_file\Fontclass.h" />
     <ClInclude Include="Header_file\Fontshaderclass.h" />
     <ClInclude Include="Header_file\FpsClass.h" />
+    <ClInclude Include="Header_file\GeometryGenerator.h" />
     <ClInclude Include="Header_file\Graphicsclass.h" />
     <ClInclude Include="Header_file\Inputclass.h" />
     <ClInclude Include="Header_file\Lightclass.h" />
     <ClInclude Include="Header_file\LightFX.h" />
     <ClInclude Include="Header_file\Lightshaderclass.h" />
+    <ClInclude Include="Header_file\MathHelper.h" />
     <ClInclude Include="Header_file\Modelclass.h" />
     <ClInclude Include="Header_file\obj_parser.h" />
     <ClInclude Include="Header_file\pch.h" />

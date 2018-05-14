@@ -1,25 +1,22 @@
 #include "stdafx.h"
 #include "../Header_file/LightFX.h"
 
-
+using namespace DirectX;
+using namespace std;
 
 LightFxClass::LightFxClass()
-{
+	:m_fxShader(0),
+	m_layout(0),
+	mTech(0),
+	mfxWorldViewProj(0),
+	mfxCameraPosition(0),
+	mfxLightValue(0),
+	mfxProjectionMatrix(0),
+	mfxShaderTexture(0),
+	mfxViewMatrix(0),
+	mfxWorldMatrix(0)
 
-	m_fxShader = 0;
-	m_layout = 0;
-
-	mTech = 0;
-	mfxWorldViewProj = 0;
-	mfxCameraPosition = 0;
-	mfxLightValue = 0;
-	mfxProjectionMatrix = 0;
-	mfxShaderTexture = 0;
-	mfxViewMatrix = 0;
-	mfxWorldMatrix = 0;
-	
-
-}
+{}
 LightFxClass::LightFxClass(const LightFxClass&)
 {
 }

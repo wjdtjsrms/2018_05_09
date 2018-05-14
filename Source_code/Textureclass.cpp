@@ -2,11 +2,12 @@
 #include "stdafx.h"
 #include "../Header_file/Textureclass.h"
 
+using namespace DirectX;
+using namespace Microsoft::WRL;
+
 TextureClass::TextureClass()
-{
-	m_texture[0] = NULL;
-	m_texture[1] =	NULL;
-}
+	:m_texture{0}
+{}
 
 
 TextureClass::TextureClass(const TextureClass& other)

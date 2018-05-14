@@ -3,8 +3,7 @@
 
 #include "pch.h"
 
-using namespace DirectX;
-using namespace std;
+
 
 typedef struct
 {

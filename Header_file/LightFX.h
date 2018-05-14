@@ -4,8 +4,7 @@
 #include "pch.h"
 
 
-using namespace DirectX;
-using namespace std;
+
 
 
 class LightFxClass
@@ -14,10 +13,10 @@ class LightFxClass
 private:
 
 	struct SetFxLightValue {
-		XMFLOAT4 Ambient;
-		XMFLOAT4 Diffuse;
-		XMFLOAT4 Specular;
-		XMFLOAT3 LightDirection;
+		DirectX::XMFLOAT4 Ambient;
+		DirectX::XMFLOAT4 Diffuse;
+		DirectX::XMFLOAT4 Specular;
+		DirectX::XMFLOAT3 LightDirection;
 		float SpecularPower;
 	};
 
@@ -28,13 +27,13 @@ public:
 
 	bool Initialize(ID3D11Device*, HWND);
 	void Shutdown();
-	bool Render(ID3D11DeviceContext*, int, XMMATRIX&, XMMATRIX&, XMMATRIX&, XMVECTOR&, XMVECTOR&, XMVECTOR&, XMVECTOR&, XMVECTOR&, float, ID3D11ShaderResourceView**);
+	bool Render(ID3D11DeviceContext*, int, DirectX::XMMATRIX&, DirectX::XMMATRIX&, DirectX::XMMATRIX&, DirectX::XMVECTOR&, DirectX::XMVECTOR&, DirectX::XMVECTOR&, DirectX::XMVECTOR&, DirectX::XMVECTOR&, float, ID3D11ShaderResourceView**);
 
 private:
 	bool InitializeShader(ID3D11Device*, HWND, const WCHAR*);
 	void ShutdownShader();
 	void OutputShaderErrorMessage(ID3D10Blob*, HWND, const WCHAR*);
-	bool SetFXParameters(ID3D11DeviceContext*, XMMATRIX&, XMMATRIX&, XMMATRIX&, XMVECTOR&, XMVECTOR&, XMVECTOR&, XMVECTOR&, XMVECTOR&, float, ID3D11ShaderResourceView**);
+	bool SetFXParameters(ID3D11DeviceContext*, DirectX::XMMATRIX&, DirectX::XMMATRIX&, DirectX::XMMATRIX&, DirectX::XMVECTOR&, DirectX::XMVECTOR&, DirectX::XMVECTOR&, DirectX::XMVECTOR&, DirectX::XMVECTOR&, float, ID3D11ShaderResourceView**);
 	void RenderShader(ID3D11DeviceContext*, int);
 
 	bool BuildGeometryBuffers(ID3D11Device*);

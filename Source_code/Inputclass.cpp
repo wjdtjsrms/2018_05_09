@@ -6,13 +6,12 @@
 
 
 InputClass::InputClass()
-{
-	m_directInput = 0; 
-	m_keyboard = 0;
-	m_mouse = 0;
-	m_playerX = 0;
-	m_playerY = 0;
-}
+	:m_directInput(0),
+	m_keyboard(0),
+	m_mouse(0),
+	m_playerX(0),
+	m_playerY(0)
+{}
 
 
 
@@ -46,17 +45,19 @@ bool InputClass::Initialize(HINSTANCE hinstance, HWND hwnd, int screenWidth, int
 
 
 
+
 	result = m_directInput->CreateDevice(GUID_SysKeyboard, &m_keyboard, NULL);
-	if (FAILED(result)){
+	if (FAILED(result)) {
 		return false;
 	}
 
 	// Set the data format. In this case since it is a keyboard we can use the predefined data format.
-	result = m_keyboard->SetDataFormat(&c_dfDIKeyboard); 
-	if(FAILED(result)) {
+	result = m_keyboard->SetDataFormat(&c_dfDIKeyboard);
+	if (FAILED(result)) {
 		return false;
 	}
 
+	//DISCL_BACKGROUND DISCL_NONEXCLUSIVE
 	result = m_keyboard->SetCooperativeLevel(hwnd, DISCL_FOREGROUND | DISCL_EXCLUSIVE);//DISCL_NONEXCLUSIVE 비배제 상태 ,| or 비트 연산자
 	if (FAILED(result)) {
 		return false;

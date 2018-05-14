@@ -2,16 +2,16 @@
 #include "stdafx.h"
 #include "../Header_file/Textclass.h"
 
+using namespace DirectX;
 
-TextClass::TextClass(){
-	m_Font = 0;
-	m_FontShader = 0;
-
-	m_sentence1 = 0;
-	m_sentence2 = 0;
-	m_sentence3 = 0;
-	m_sentence4 = 0;
-}
+TextClass::TextClass()
+	:m_Font(0),
+	m_FontShader(0),
+	m_sentence1(0),
+	m_sentence2(0),
+	m_sentence3(0),
+	m_sentence4(0)
+{}
 
 TextClass::TextClass(const TextClass& other){
 

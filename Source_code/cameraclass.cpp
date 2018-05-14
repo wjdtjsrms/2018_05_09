@@ -5,17 +5,16 @@
 #include "stdafx.h"
 #include "../Header_file/Cameraclass.h"
 
+using namespace DirectX;
 
 CameraClass::CameraClass()
-{
-	m_positionX = 0.0f;
-	m_positionY = 0.0f;
-	m_positionZ = 0.0f;
-
-	m_rotationX = 0.0f;
-	m_rotationY = 0.0f;
-	m_rotationZ = 0.0f;
-}
+	:m_positionX(0.0f),
+	m_positionY(0.0f),
+	m_positionZ(0.0f),
+	m_rotationX(0.0f),
+	m_rotationY(0.0f),
+	m_rotationZ(0.0f)
+{}
 
 
 CameraClass::CameraClass(const CameraClass& other)
@@ -101,3 +100,9 @@ void CameraClass::GetViewMatrix(XMMATRIX& viewMatrix)
 	viewMatrix = XMLoadFloat4x4(&m_viewMatrix);
 	return;
 }
+
+//XMMATRIX& CameraClass::GetViewMatrix2()
+//{
+//	viewMatrix = XMLoadFloat4x4(&m_viewMatrix);
+//	return;
+//}

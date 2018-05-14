@@ -4,7 +4,8 @@
 
 #include "stdafx.h"
 #include "../Header_file/Lightshaderclass.h"
-
+using namespace DirectX;
+using namespace std;
 
 LightShaderClass::LightShaderClass()
 {

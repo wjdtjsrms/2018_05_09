@@ -3,7 +3,7 @@
 
 
 #include "pch.h"
-using namespace DirectX;
+
 class LightClass
 {
 public:
@@ -17,17 +17,17 @@ public:
 	void SetAmbientColor(float, float, float, float);
 	void SetSpecularPower(float);
 
-	void GetDiffuseColor(XMVECTOR&);
-	void GetDirection(XMVECTOR&);
-	void GetAmbientColor(XMVECTOR&);
-	void GetSpecularColor(XMVECTOR&);
+	void GetDiffuseColor(DirectX::XMVECTOR&);
+	void GetDirection(DirectX::XMVECTOR&);
+	void GetAmbientColor(DirectX::XMVECTOR&);
+	void GetSpecularColor(DirectX::XMVECTOR&);
 	float GetSpecularPower();
 
 private:
-	XMFLOAT4 m_ambientColor;
-	XMFLOAT4 m_diffuseColor;
-	XMFLOAT3 m_direction;
-	XMFLOAT4 m_specularColor;
+	DirectX::XMFLOAT4 m_ambientColor;
+	DirectX::XMFLOAT4 m_diffuseColor;
+	DirectX::XMFLOAT3 m_direction;
+	DirectX::XMFLOAT4 m_specularColor;
 	float m_specularPower;
 	
 };

@@ -2,14 +2,15 @@
 #include "stdafx.h"
 #include "../Header_file/obj_parser.h"
 
+using namespace DirectX;
+using namespace std;
 
-
-Obj_loader::Obj_loader(){
-	vertices, texcoords, normals = 0;
-	faces = 0;
-	
-
-}
+Obj_loader::Obj_loader()
+	:vertices(0),
+	texcoords(0),
+	normals(0),
+	faces(0)
+{}
 
 Obj_loader::Obj_loader(const Obj_loader&){
 

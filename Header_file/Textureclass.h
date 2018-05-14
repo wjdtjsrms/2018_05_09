@@ -5,8 +5,7 @@
 #include "pch.h"
 
 
-using namespace DirectX;
-using namespace Microsoft::WRL;
+
 
 
 class TextureClass

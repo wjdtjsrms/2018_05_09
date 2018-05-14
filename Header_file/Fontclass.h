@@ -5,8 +5,7 @@
 #include "Textureclass.h"
 
 
-using namespace DirectX;
-using namespace std;
+
 
 
 
@@ -21,8 +20,8 @@ private:
 
 	struct  VertextType
 	{
-		XMFLOAT3 position;
-		XMFLOAT2 texture;
+		DirectX::XMFLOAT3 position;
+		DirectX::XMFLOAT2 texture;
 
 	};
 

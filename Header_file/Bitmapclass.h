@@ -1,21 +1,22 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Filename: modelclass.h
 ////////////////////////////////////////////////////////////////////////////////
+
+
+
 #ifndef _BITMAPCLASS_H_
 #define _BITMAPCLASS_H_
 
-//써먹는데가 없는데 뭐드라
-
-
-//////////////
-// INCLUDES //
-//////////////
 
 #include "pch.h"
 #include "textureclass.h"
 
-using namespace DirectX;
-using namespace std;
+
+
+
+
+
+
 
 
 
@@ -29,8 +30,8 @@ private:
 	struct VertexType
 	{
 		
-		XMFLOAT3 position;
-		XMFLOAT2 texture;
+		DirectX::XMFLOAT3 position;
+		DirectX::XMFLOAT2 texture;
 	};
 
 

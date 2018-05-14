@@ -7,13 +7,14 @@
 
 #include "../Header_file/bitmapclass.h"
 
+using namespace DirectX;
+using namespace std;
 
 BitmapClass::BitmapClass()
-{
-	m_vertexBuffer = 0;
-	m_indexBuffer = 0;
-	m_Texture = 0;
-}
+	:m_vertexBuffer(0),
+	m_indexBuffer(0),
+	m_Texture(0)
+{}
 
 
 BitmapClass::BitmapClass(const BitmapClass& other)

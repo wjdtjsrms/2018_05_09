@@ -6,15 +6,14 @@
 
 
 GraphicsClass::GraphicsClass()
-{
-	m_D3D = 0;
-	m_Camera = 0;
-	m_Model = 0;
-	m_LightShader = 0;
-	m_LightFx = 0;
-	m_Light = 0;
-	m_Text = 0;
-}
+	:m_D3D(0),
+	m_Camera(0),
+	m_Model(0),
+	m_LightShader(0),
+	m_LightFx(0),
+	m_Light(0),
+	m_Text(0)
+{}
 
 
 GraphicsClass::GraphicsClass(const GraphicsClass& other)
@@ -58,6 +57,19 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	m_Camera->Render();
 	m_Camera->GetViewMatrix(BaseViewMatrix);
 	
+
+	m_Text = new TextClass;
+	if (!m_Text) {
+		return false;
+	}
+
+	//render 할때로 옮기면 안되나?
+	result = m_Text->Initialize(m_D3D->GetDevice(), m_D3D->GetDeviceContext(), hwnd, screenWidth, screenHeight, BaseViewMatrix);
+	if (!result)
+	{
+		return false;
+	}
+
 	m_Model = new ModelClass;
 	if(!m_Model)
 	{
@@ -92,6 +104,14 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 
+
+
+
+	SetMemberVariable();
+	return true;
+}
+void GraphicsClass::SetMemberVariable() {
+
 	// light object 값 설정
 	m_Light->SetAmbientColor(0.15f, 0.15f, 0.15f, 1.0f);
 	m_Light->SetDiffuseColor(0.5f, 0.5f, 0.5f, 0.5f);
@@ -99,19 +119,9 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	m_Light->setSpecularColor(1.0f, 0.0f, 0.0f, 1.0f);
 	m_Light->SetSpecularPower(16.0f);
 
-	m_Text = new TextClass;
-	if (!m_Light){
-		return false;
-	}
-
-	result = m_Text->Initialize(m_D3D->GetDevice(), m_D3D->GetDeviceContext(), hwnd, screenWidth, screenHeight, BaseViewMatrix);
-	if (!m_Light)
-	{
-		return false;
-	}
-
-	return true;
+	return;
 }
+
 
 
 void GraphicsClass::Shutdown()
@@ -187,17 +197,17 @@ bool GraphicsClass::Frame(int mouseX, int mouseY)
 	return true;
 }
 
-bool GraphicsClass::SetHardWareData(int mouseX, int mouseY, int fps, int cpuPercent, float time)
+bool GraphicsClass::SetHardWareData(MouseXY MousePosition,int fps, int cpuPercent, float time)
 {
 
 	bool result;
 
 	//typdef MousePosition
-	m_mouseX = mouseX;
-	m_mouseY = mouseY;
+	m_mouseX = MousePosition.mouseX;
+	m_mouseY = MousePosition.mouseY;
 
 	//m_sentence1에 값을 채워넣는 방식
-	result = m_Text->SetMousePosition(mouseX, mouseY, m_D3D->GetDeviceContext());
+	result = m_Text->SetMousePosition(MousePosition.mouseX, MousePosition.mouseY, m_D3D->GetDeviceContext());
 	if (!result)
 	{
 		return false;
@@ -260,6 +270,7 @@ bool GraphicsClass::Render()
 
 	// 물체의 회전을 구현
 	// 카메라의 회전으로 교체 예정
+	//굳이 RENDER() 가 아니라 FRAME() 에 있어도 되는거 아님?
 	worldMatrix = worldMatrix*XMMatrixRotationY(-rotationX)*XMMatrixRotationX(-rotationY);
 
 	//모델의 설정 값을 담은 device context 를 가져옴

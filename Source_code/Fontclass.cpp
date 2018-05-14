@@ -2,10 +2,14 @@
 #include "stdafx.h"
 #include "../Header_file/Fontclass.h"
 #include "../source_code/stdafx.h"
-FontClass::FontClass(){
-	m_Font = 0;
-	m_Texture = 0;
-}
+
+using namespace DirectX;
+using namespace std;
+
+FontClass::FontClass()
+	:m_Font(0),
+	 m_Texture(0)
+{}
 
 FontClass::FontClass(const FontClass& other){
 
