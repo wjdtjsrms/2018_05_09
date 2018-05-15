@@ -40,8 +40,8 @@ public:
 
 	//안 쓰거나 그냥 VECTOR 쓰는게 더 나을지두
 	typedef struct MousePosition {
-		int mouseX;
-		int	mouseY;
+		float mouseX;
+		float	mouseY;
 
 	}MouseXY;
 
@@ -51,8 +51,8 @@ public:
 
 	bool Initialize(int, int, HWND);
 	void Shutdown();
-	bool Frame(int, int);
-	bool SetHardWareData(MouseXY,int,int,float );
+	bool Frame();
+	bool SetHardWareData(MouseXY, MouseXY,int,int,float );
 
 private:
 	bool Render();
@@ -70,6 +70,9 @@ private:
 
 	int m_mouseX;
 	int m_mouseY;
+
+	float m_PlayerX;
+	float m_PlayerY;
 };
 
 

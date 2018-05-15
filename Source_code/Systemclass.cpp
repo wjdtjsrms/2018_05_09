@@ -213,16 +213,20 @@ bool SystemClass::Frame()
 	m_Input->GetPlayerLocation(player_X, player_Y);
 	
 	GraphicsClass::MouseXY MousePosition;
+	GraphicsClass::MouseXY PlayerPosition;
 	
 	MousePosition.mouseX = mouseX;
 	MousePosition.mouseY = mouseY;
 
-	result = m_Graphics->SetHardWareData(MousePosition, m_Fps->GetFps(), m_Cpu->GetCpuPercentage(), m_Timer->GetTime() );
+	PlayerPosition.mouseX = player_X;
+	PlayerPosition.mouseY = player_Y;
+
+	result = m_Graphics->SetHardWareData(MousePosition, PlayerPosition,m_Fps->GetFps(), m_Cpu->GetCpuPercentage(), m_Timer->GetTime() );
 	if (!result) {
 		return false;
 	}
 
-	result = m_Graphics->Frame(mouseX, mouseY);
+	result = m_Graphics->Frame();
 	if (!result){
 		return false;
 	}

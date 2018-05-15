@@ -15,6 +15,7 @@
 
 #include "textureclass.h"
 #include "obj_parser.h"
+#include "GeometryGenerator.h"
 
 
 
@@ -30,15 +31,17 @@ private:
 		DirectX::XMFLOAT3 position;
 ;		DirectX::XMFLOAT2 texture;
 		DirectX::XMFLOAT3 normal;
+		DirectX::XMFLOAT4 Color;
 
 	};
-
 	struct ModelType
 	{
 		float x, y, z;
 		float tu, tv;
 		float nx, ny, nz;
 	};
+
+
 
 public:
 	ModelClass();
@@ -65,6 +68,10 @@ private:
 
 	bool LoadParser(const WCHAR*);
 	void ReleaseParser();
+	
+	bool BuildGeometryBuffers(ID3D11Device*);
+
+	float GetHeight(float,float) const;
 
 
 private:
@@ -73,6 +80,8 @@ private:
 	TextureClass* m_Texture;
 	ModelType* m_model;
 	Obj_loader* m_parser;
+
+	UINT mGridIndexCount;
 };
 
 #endif

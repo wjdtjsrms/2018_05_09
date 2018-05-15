@@ -12,7 +12,9 @@ GraphicsClass::GraphicsClass()
 	m_LightShader(0),
 	m_LightFx(0),
 	m_Light(0),
-	m_Text(0)
+	m_Text(0),
+	m_PlayerX(0),
+	m_PlayerY(0)
 {}
 
 
@@ -53,7 +55,7 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	}
 
 	// 카메라 위치 잡기
-	m_Camera->SetPosition(0.0f, 0.0f, -15.0f);
+	m_Camera->SetPosition(0.0f, 2.0f, -5.0f);
 	m_Camera->Render();
 	m_Camera->GetViewMatrix(BaseViewMatrix);
 	
@@ -182,7 +184,7 @@ void GraphicsClass::Shutdown()
 
 
 //매 frame 마다 실행되는 함수
-bool GraphicsClass::Frame(int mouseX, int mouseY)
+bool GraphicsClass::Frame()
 {
 	bool result;
 
@@ -197,7 +199,7 @@ bool GraphicsClass::Frame(int mouseX, int mouseY)
 	return true;
 }
 
-bool GraphicsClass::SetHardWareData(MouseXY MousePosition,int fps, int cpuPercent, float time)
+bool GraphicsClass::SetHardWareData(MouseXY MousePosition, MouseXY PlayerPosition,int fps, int cpuPercent, float time)
 {
 
 	bool result;
@@ -205,6 +207,11 @@ bool GraphicsClass::SetHardWareData(MouseXY MousePosition,int fps, int cpuPercen
 	//typdef MousePosition
 	m_mouseX = MousePosition.mouseX;
 	m_mouseY = MousePosition.mouseY;
+
+	
+
+	m_PlayerX = PlayerPosition.mouseX;
+	m_PlayerY = PlayerPosition.mouseY;
 
 	//m_sentence1에 값을 채워넣는 방식
 	result = m_Text->SetMousePosition(MousePosition.mouseX, MousePosition.mouseY, m_D3D->GetDeviceContext());
@@ -271,8 +278,9 @@ bool GraphicsClass::Render()
 	// 물체의 회전을 구현
 	// 카메라의 회전으로 교체 예정
 	//굳이 RENDER() 가 아니라 FRAME() 에 있어도 되는거 아님?
-	worldMatrix = worldMatrix*XMMatrixRotationY(-rotationX)*XMMatrixRotationX(-rotationY);
-
+	//위치는 XMFLOAT 에 저장하면 되잖아 멍청아
+	viewMatrix = viewMatrix * XMMatrixTranslation(m_PlayerX, 0, m_PlayerY)*XMMatrixRotationY(-rotationX)*XMMatrixRotationX(-rotationY);
+	//viewMatrix = viewMatrix * XMMatrixTranslation(-m_PlayerX, 0, -m_PlayerY)*XMMatrixRotationY(-rotationX)*XMMatrixRotationX(-rotationY);
 	//모델의 설정 값을 담은 device context 를 가져옴
 	m_Model->Render(m_D3D->GetDeviceContext());
 

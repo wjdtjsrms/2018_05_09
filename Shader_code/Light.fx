@@ -50,6 +50,7 @@ struct VertexIn
     float4 position : POSITION;
     float2 tex : TEXCOORD0; //save teture position
 	float3 normal: NORMAL;
+    float4 Color : COLOR;
 };
 
 struct VertexOut
@@ -58,6 +59,7 @@ struct VertexOut
     float2 tex : TEXCOORD0;
     float3 normal : NORMAL;
     float3 viewDirection : TEXCOORD1;
+    float4 Color : COLOR;
 };
 
 Texture2D shaderTexture[2];
@@ -96,6 +98,8 @@ VertexOut VS(VertexIn vin)
 	  
 	// Normalize the viewing direction vector. 
     output.viewDirection = normalize(output.viewDirection);
+
+    output.Color = vin.Color;
 
     return output;
 }

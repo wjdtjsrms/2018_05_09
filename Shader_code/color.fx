@@ -36,6 +36,7 @@ struct VertexIn
     float4 position : POSITION;
     float2 tex : TEXCOORD0;
     float3 normal : NORMAL;
+    float4 Color : COLOR;
 };
 
 struct VertexOut
@@ -44,6 +45,7 @@ struct VertexOut
     float2 tex : TEXCOORD0;
     float3 normal : NORMAL;
     float3 viewDirection : TEXCOORD1;
+    float4 Color : COLOR;
 
 };
 
@@ -90,6 +92,7 @@ VertexOut VS(VertexIn vin)
 	  
 	// Normalize the viewing direction vector. 
     output.viewDirection = normalize(output.viewDirection);
+    output.Color = vin.Color;
 
     return output;
 }
@@ -128,7 +131,7 @@ float4 PS(VertexOut pin) : SV_Target
 
     color = saturate(color + specular); // clamp 0.0~1.0
 
-    return color;
+    return pin.Color;
 }
 
 technique11 ColorTech

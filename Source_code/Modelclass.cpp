@@ -13,7 +13,8 @@ ModelClass::ModelClass()
 	m_indexBuffer(0),
 	m_Texture(0),
 	m_model(0),
-	m_parser(0)
+	m_parser(0),
+	mGridIndexCount(0)
 {}
 // 명시해주는 이유는 기본 복사 생성자가 생성되지 말라고
 ModelClass::ModelClass(const ModelClass& other)
@@ -44,8 +45,14 @@ bool ModelClass::Initialize(ID3D11Device* device, const WCHAR* objFileName, cons
 	}
 
 	// Initialize the vertex and index buffers.
-	result = InitializeBuffers(device);
-	if(!result)
+	//result = InitializeBuffers(device);
+	//if(!result)
+	//{
+	//	return false;
+	//}
+
+	result = BuildGeometryBuffers(device);
+	if (!result)
 	{
 		return false;
 	}
@@ -87,10 +94,11 @@ void ModelClass::Render(ID3D11DeviceContext* deviceContext)
 	return;
 }
 
-
+//여기가 중요 포인트
+//여기에요 떡대 분들
 int ModelClass::GetIndexCount()
 {
-	return m_indexCount;
+	return mGridIndexCount;
 }
 
 ID3D11ShaderResourceView** ModelClass::GetTexture(){
@@ -128,6 +136,9 @@ bool ModelClass::InitializeBuffers(ID3D11Device* device)
 		vertices[i].position = XMFLOAT3(m_model[i].x, m_model[i].y, m_model[i].z);
 		vertices[i].texture = XMFLOAT2(m_model[i].tu, m_model[i].tv);
 		vertices[i].normal = XMFLOAT3(m_model[i].nx, m_model[i].ny, m_model[i].nz);
+
+
+		vertices[i].Color = XMFLOAT4(0.48f, 0.77f, 0.46f, 1.0f);;
 
 		indices[i] = i;
 	}
@@ -360,4 +371,92 @@ void ModelClass::ReleaseParser()
 	}
 
 	return;
+}
+
+
+float ModelClass::GetHeight(float x, float z)const
+{
+	return 0.3f*(z*sinf(0.1f*x) + x * cosf(0.1f*z));
+}
+
+bool ModelClass::BuildGeometryBuffers(ID3D11Device* device) {
+
+	GeometryGenerator::MeshData grid;
+
+	GeometryGenerator geoGen;
+	
+	//geoGen.CreateBox(5.0f, 5.0f, 5.0f, grid);
+	//geoGen.CreateGrid(20.0f, 30.0f, 60, 40, grid);
+	geoGen.CreateSphere(0.5f, 20, 20, grid);
+
+	VertexType* vertices;
+	D3D11_BUFFER_DESC vertexBufferDesc, indexBufferDesc;
+	D3D11_SUBRESOURCE_DATA vertexData, indexData;
+	HRESULT result;
+	unsigned int i;
+
+	// Create the vertex array.
+	vertices = new VertexType[grid.Vertices.size()];
+	if (!vertices)
+	{
+		return false;
+	}
+
+	mGridIndexCount = grid.Indices.size();
+
+	// Load the vertex array and index array with data.
+	for (i = 0; i<grid.Vertices.size(); i++)
+	{
+		vertices[i].position = grid.Vertices[i].Position;
+		vertices[i].texture = grid.Vertices[i].TexC;
+		vertices[i].normal = grid.Vertices[i].Normal;
+		vertices[i].Color = XMFLOAT4(0.48f, 0.77f, 0.46f, 1.0f);;
+	}
+	
+	// Set up the description of the static vertex buffer.
+	vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	vertexBufferDesc.ByteWidth = sizeof(VertexType) * grid.Vertices.size();
+	vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	vertexBufferDesc.CPUAccessFlags = 0;
+	vertexBufferDesc.MiscFlags = 0;
+	vertexBufferDesc.StructureByteStride = 0;
+
+	// Give the subresource structure a pointer to the vertex data.
+	vertexData.pSysMem = vertices;
+	vertexData.SysMemPitch = 0;
+	vertexData.SysMemSlicePitch = 0;
+
+	// Now create the vertex buffer.
+	result = device->CreateBuffer(&vertexBufferDesc, &vertexData, &m_vertexBuffer);
+	if (FAILED(result))
+	{
+		return false;
+	}
+
+	// Set up the description of the static index buffer.
+	indexBufferDesc.Usage = D3D11_USAGE_IMMUTABLE;
+	indexBufferDesc.ByteWidth = sizeof(UINT) * mGridIndexCount;
+	indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	indexBufferDesc.CPUAccessFlags = 0;
+	indexBufferDesc.MiscFlags = 0;
+	indexBufferDesc.StructureByteStride = 0;
+
+	// Give the subresource structure a pointer to the index data.
+	indexData.pSysMem = &grid.Indices[0];
+	indexData.SysMemPitch = 0;
+	indexData.SysMemSlicePitch = 0;
+
+	// Create the index buffer.
+	result = device->CreateBuffer(&indexBufferDesc, &indexData, &m_indexBuffer);
+	if (FAILED(result))
+	{
+		return false;
+	}
+
+	// Release the arrays now that the vertex and index buffers have been created and loaded.
+	delete[] vertices;
+	vertices = 0;
+
+
+	return true;
 }

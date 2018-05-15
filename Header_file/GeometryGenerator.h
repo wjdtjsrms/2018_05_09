@@ -83,6 +83,7 @@ public:
 	/// postprocessing effects.
 	///</summary>
 	void CreateFullscreenQuad(MeshData& meshData);
+	
 
 private:
 	void Subdivide(MeshData& meshData);
