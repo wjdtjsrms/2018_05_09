@@ -13,8 +13,7 @@ ModelClass::ModelClass()
 	m_indexBuffer(0),
 	m_Texture(0),
 	m_model(0),
-	m_parser(0),
-	mGridIndexCount(0)
+	m_parser(0)
 {}
 // 명시해주는 이유는 기본 복사 생성자가 생성되지 말라고
 ModelClass::ModelClass(const ModelClass& other)
@@ -98,7 +97,12 @@ void ModelClass::Render(ID3D11DeviceContext* deviceContext)
 //여기에요 떡대 분들
 int ModelClass::GetIndexCount()
 {
-	return mGridIndexCount;
+	return m_indexCount;
+}
+
+int ModelClass::GetGridIndexCount()
+{
+	return m_GridData.IndexCount;
 }
 
 ID3D11ShaderResourceView** ModelClass::GetTexture(){
@@ -233,6 +237,8 @@ void ModelClass::RenderBuffers(ID3D11DeviceContext* deviceContext)
 
     // Set the type of primitive that should be rendered from this vertex buffer, in this case triangles.
 	deviceContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+
 
 	return;
 }
@@ -379,15 +385,21 @@ float ModelClass::GetHeight(float x, float z)const
 	return 0.3f*(z*sinf(0.1f*x) + x * cosf(0.1f*z));
 }
 
+
+
 bool ModelClass::BuildGeometryBuffers(ID3D11Device* device) {
 
+	GeometryGenerator::MeshData box;
+	GeometryGenerator::MeshData sphere;
 	GeometryGenerator::MeshData grid;
+	GeometryGenerator::MeshData cylinder;
 
 	GeometryGenerator geoGen;
 	
-	//geoGen.CreateBox(5.0f, 5.0f, 5.0f, grid);
-	//geoGen.CreateGrid(20.0f, 30.0f, 60, 40, grid);
-	geoGen.CreateSphere(0.5f, 20, 20, grid);
+	geoGen.CreateBox(1.0f, 1.0f, 1.0f, box);
+	geoGen.CreateGrid(20.0f, 5.0f, 30, 20, grid);
+	geoGen.CreateSphere(0.5f, 20, 20, sphere);
+	geoGen.CreateCylinder(0.5f, 0.3f, 3.0f, 20, 20, cylinder);
 
 	VertexType* vertices;
 	D3D11_BUFFER_DESC vertexBufferDesc, indexBufferDesc;
@@ -395,27 +407,82 @@ bool ModelClass::BuildGeometryBuffers(ID3D11Device* device) {
 	HRESULT result;
 	unsigned int i;
 
+
+	m_BoxData.VertexOffset = 0;
+	m_GridData.VertexOffset = box.Vertices.size();
+	m_SphereData.VertexOffset = m_GridData.VertexOffset + grid.Vertices.size();
+	m_CylinderData.VertexOffset = m_SphereData.VertexOffset + sphere.Vertices.size();
+
+	m_BoxData.IndexCount = box.Indices.size();
+	m_GridData.IndexCount = grid.Indices.size();
+	m_SphereData.IndexCount = sphere.Indices.size();
+	m_CylinderData.IndexCount = cylinder.Indices.size();
+
+	m_BoxData.IndexOffset = 0;
+	m_GridData.IndexOffset = m_BoxData.IndexCount;
+	m_SphereData.IndexOffset = m_GridData.IndexOffset + m_GridData.IndexCount;
+	m_CylinderData.IndexOffset = m_SphereData.IndexOffset + m_SphereData.IndexCount;
+
+	UINT totalVertexCount =
+		box.Vertices.size() +
+		grid.Vertices.size() +
+		sphere.Vertices.size() +
+		cylinder.Vertices.size();
+
+	UINT totalIndexCount =
+		m_BoxData.IndexCount +
+		m_GridData.IndexCount +
+		m_SphereData.IndexCount +
+		m_CylinderData.IndexCount;
+
+
+
 	// Create the vertex array.
-	vertices = new VertexType[grid.Vertices.size()];
+	vertices = new VertexType[totalVertexCount];
 	if (!vertices)
 	{
 		return false;
 	}
 
-	mGridIndexCount = grid.Indices.size();
+	unsigned int k = 0;
 
 	// Load the vertex array and index array with data.
-	for (i = 0; i<grid.Vertices.size(); i++)
+
+	for (i = 0; i<box.Vertices.size(); i++, k++)
 	{
-		vertices[i].position = grid.Vertices[i].Position;
-		vertices[i].texture = grid.Vertices[i].TexC;
-		vertices[i].normal = grid.Vertices[i].Normal;
-		vertices[i].Color = XMFLOAT4(0.48f, 0.77f, 0.46f, 1.0f);;
+		vertices[k].position = box.Vertices[i].Position;
+		vertices[k].texture = box.Vertices[i].TexC;
+		vertices[k].normal = box.Vertices[i].Normal;
+		vertices[k].Color = XMFLOAT4(0.48f, 0.77f, 0.46f, 1.0f);
+	}
+
+	for (i = 0; i<grid.Vertices.size(); i++, k++)
+	{
+		vertices[k].position = grid.Vertices[i].Position;
+		vertices[k].texture = grid.Vertices[i].TexC;
+		vertices[k].normal = grid.Vertices[i].Normal;
+		vertices[k].Color = XMFLOAT4(0.48f, 0.77f, 0.46f, 1.0f);
+	}
+
+	for (i = 0; i<sphere.Vertices.size(); i++, k++)
+	{
+		vertices[k].position = sphere.Vertices[i].Position;
+		vertices[k].texture = sphere.Vertices[i].TexC;
+		vertices[k].normal = sphere.Vertices[i].Normal;
+		vertices[k].Color = XMFLOAT4(0.48f, 0.77f, 0.46f, 1.0f);
+	}
+
+	for (i = 0; i<cylinder.Vertices.size(); i++, k++)
+	{
+		vertices[k].position = cylinder.Vertices[i].Position;
+		vertices[k].texture = cylinder.Vertices[i].TexC;
+		vertices[k].normal = cylinder.Vertices[i].Normal;
+		vertices[k].Color = XMFLOAT4(0.48f, 0.77f, 0.46f, 1.0f);
 	}
 	
 	// Set up the description of the static vertex buffer.
 	vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-	vertexBufferDesc.ByteWidth = sizeof(VertexType) * grid.Vertices.size();
+	vertexBufferDesc.ByteWidth = sizeof(VertexType) * totalVertexCount;
 	vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	vertexBufferDesc.CPUAccessFlags = 0;
 	vertexBufferDesc.MiscFlags = 0;
@@ -433,16 +500,23 @@ bool ModelClass::BuildGeometryBuffers(ID3D11Device* device) {
 		return false;
 	}
 
+	std::vector<UINT> indices;
+	indices.insert(indices.end(), box.Indices.begin(), box.Indices.end());
+	indices.insert(indices.end(), grid.Indices.begin(), grid.Indices.end());
+	indices.insert(indices.end(), sphere.Indices.begin(), sphere.Indices.end());
+	indices.insert(indices.end(), cylinder.Indices.begin(), cylinder.Indices.end());
+
+
 	// Set up the description of the static index buffer.
 	indexBufferDesc.Usage = D3D11_USAGE_IMMUTABLE;
-	indexBufferDesc.ByteWidth = sizeof(UINT) * mGridIndexCount;
+	indexBufferDesc.ByteWidth = sizeof(UINT) * totalIndexCount;
 	indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
 	indexBufferDesc.CPUAccessFlags = 0;
 	indexBufferDesc.MiscFlags = 0;
 	indexBufferDesc.StructureByteStride = 0;
 
 	// Give the subresource structure a pointer to the index data.
-	indexData.pSysMem = &grid.Indices[0];
+	indexData.pSysMem = &indices[0];
 	indexData.SysMemPitch = 0;
 	indexData.SysMemSlicePitch = 0;
 
@@ -459,4 +533,32 @@ bool ModelClass::BuildGeometryBuffers(ID3D11Device* device) {
 
 
 	return true;
+}
+
+void ModelClass::GetBoxeData(InstanceData& data) const{
+
+	data = m_BoxData;
+
+	return;
+}
+
+void ModelClass::GetGrideData(InstanceData& data) const {
+
+	data = m_GridData;
+
+	return;
+}
+
+void ModelClass::GetSphereeData(InstanceData& data) const {
+
+	data = m_SphereData;
+
+	return;
+}
+
+void ModelClass::GetCylindereData(InstanceData& data) const {
+
+	data = m_CylinderData;
+
+	return;
 }

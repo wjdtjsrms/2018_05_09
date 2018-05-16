@@ -137,7 +137,7 @@ bool LightFxClass::Initialize(ID3D11Device* device, HWND hwnd)
 }
 
 
-bool LightFxClass::Render(ID3D11DeviceContext* deviceContext, int indexCount, XMMATRIX& worldMatrix, XMMATRIX& viewMatrix,
+bool LightFxClass::Render(ID3D11DeviceContext* deviceContext, int indexCount, int indexOffset, int vertexOffset, XMMATRIX& worldMatrix, XMMATRIX& viewMatrix,
 	XMMATRIX& projectionMatrix, XMVECTOR& lightDirection, XMVECTOR& diffuseColor, XMVECTOR& ambientColor, XMVECTOR& cameraPosition, XMVECTOR& specularColor, float specularPower, ID3D11ShaderResourceView** textureArray)
 {
 	bool result;
@@ -150,7 +150,7 @@ bool LightFxClass::Render(ID3D11DeviceContext* deviceContext, int indexCount, XM
 	}
 
 	// 제공된 버퍼들로 쉐이더를 그림
-	RenderShader(deviceContext, indexCount);
+	RenderShader(deviceContext, indexCount, indexOffset, vertexOffset);
 
 	return true;
 }
@@ -364,7 +364,7 @@ bool LightFxClass::SetFXParameters(ID3D11DeviceContext* deviceContext, XMMATRIX&
 	return true;
 }
 
-void LightFxClass::RenderShader(ID3D11DeviceContext* deviceContext, int indexCount)
+void LightFxClass::RenderShader(ID3D11DeviceContext* deviceContext, int indexCount, int indexOffset, int vertexOffset)
 {
 	// BuildGeometryBuffers()에서 작성한 m_layout 설정 
 	deviceContext->IASetInputLayout(m_layout);
@@ -376,7 +376,7 @@ void LightFxClass::RenderShader(ID3D11DeviceContext* deviceContext, int indexCou
 
 		mTech->GetPassByIndex(p)->Apply(0, deviceContext);
 
-		deviceContext->DrawIndexed(indexCount, 0, 0);
+		deviceContext->DrawIndexed(indexCount, indexOffset, vertexOffset);
 	}
 
 	return;

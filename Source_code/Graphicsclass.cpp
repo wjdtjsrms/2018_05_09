@@ -238,11 +238,51 @@ bool GraphicsClass::SetHardWareData(MouseXY MousePosition, MouseXY PlayerPositio
 
 bool GraphicsClass::Render()
 {
-	XMMATRIX worldMatrix, viewMatrix, projectionMatrix,orthoMatrix;
+	XMMATRIX mSphereWorld[10];
+	XMMATRIX mCylWorld[10];
+	XMMATRIX mBoxWorld;
+	XMMATRIX mGridWorld;
+	XMMATRIX mCenterSphere;
+
+	XMMATRIX mView;
+	XMMATRIX mProj;
+
+	XMMATRIX I = XMMatrixIdentity();
+	mGridWorld = I;
+	mView = I;
+	mProj = I;
+
+	XMMATRIX boxScale = XMMatrixScaling(2.0f, 1.0f, 2.0f);
+	XMMATRIX boxOffset = XMMatrixTranslation(0.0f, 0.5f, 0.0f);
+	mBoxWorld = XMMatrixMultiply(boxScale, boxOffset);
+
+	XMMATRIX centerSphereScale = XMMatrixScaling(2.0f, 2.0f, 2.0f);
+	XMMATRIX centerSphereOffset = XMMatrixTranslation(0.0f, 2.0f, 0.0f);
+	mCenterSphere = XMMatrixMultiply(centerSphereScale, centerSphereOffset);
+
+	for (int i = 0; i < 5; ++i)
+	{
+		mCylWorld[i * 2 + 0] = XMMatrixTranslation(-5.0f, 1.5f, -10.0f + i * 5.0f);
+		mCylWorld[i * 2 + 1] = XMMatrixTranslation(+5.0f, 1.5f, -10.0f + i * 5.0f);
+
+		mSphereWorld[i * 2 + 0] = XMMatrixTranslation(-5.0f, 3.5f, -10.0f + i * 5.0f);
+		mSphereWorld[i * 2 + 1] = XMMatrixTranslation(+5.0f, 3.5f, -10.0f + i * 5.0f);
+	}
+
+	ModelClass::InstanceData Boxdata;
+	m_Model->GetBoxeData(Boxdata);
+	ModelClass::InstanceData Griddata;
+	m_Model->GetGrideData(Griddata);
+	ModelClass::InstanceData Spheredata;
+	m_Model->GetSphereeData(Spheredata);
+	ModelClass::InstanceData Cylinderedata;
+	m_Model->GetCylindereData(Cylinderedata);
+
+
+	XMMATRIX worldMatrix, viewMatrix, projectionMatrix, orthoMatrix;
 	XMVECTOR Direction, DiffuseColor, AmbeintColor, SpecularColor, CameraPostion;
 
 	float SpecularPower;
-	
 	bool result;
 
 	float rotationX;
@@ -260,6 +300,7 @@ bool GraphicsClass::Render()
 
 	// 쉐이더 구축에 필요한 값을 지역변수에 저장
 	m_Camera->GetViewMatrix(viewMatrix);
+	//이거 단위 행렬 돌려주는데?
 	m_D3D->GetWorldMatrix(worldMatrix);
 	m_D3D->GetProjectionMatrix(projectionMatrix);
 	m_D3D->GetOrthoMatrix(orthoMatrix);
@@ -275,6 +316,8 @@ bool GraphicsClass::Render()
 	SpecularPower = m_Light->GetSpecularPower();
 
 
+	
+
 	// 물체의 회전을 구현
 	// 카메라의 회전으로 교체 예정
 	//굳이 RENDER() 가 아니라 FRAME() 에 있어도 되는거 아님?
@@ -285,8 +328,28 @@ bool GraphicsClass::Render()
 	m_Model->Render(m_D3D->GetDeviceContext());
 
 
+
+
 	// 주어진 값으로 fx파일 컴파일 및 실행
-	HR(result = m_LightFx->Render(m_D3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix, Direction, DiffuseColor, AmbeintColor, CameraPostion, SpecularColor, SpecularPower, m_Model->GetTexture()));
+	HR(result = m_LightFx->Render(m_D3D->GetDeviceContext(), Griddata.IndexCount, Griddata.IndexOffset, Griddata.VertexOffset, mGridWorld, viewMatrix, projectionMatrix, Direction, DiffuseColor, AmbeintColor, CameraPostion, SpecularColor, SpecularPower, m_Model->GetTexture()));
+	HR(result = m_LightFx->Render(m_D3D->GetDeviceContext(), Boxdata.IndexCount, Boxdata.IndexOffset, Boxdata.VertexOffset, mBoxWorld, viewMatrix, projectionMatrix, Direction, DiffuseColor, AmbeintColor, CameraPostion, SpecularColor, SpecularPower, m_Model->GetTexture()));
+	HR(result = m_LightFx->Render(m_D3D->GetDeviceContext(), Spheredata.IndexCount, Spheredata.IndexOffset, Spheredata.VertexOffset, mCenterSphere, viewMatrix, projectionMatrix, Direction, DiffuseColor, AmbeintColor, CameraPostion, SpecularColor, SpecularPower, m_Model->GetTexture()));
+
+	for (int i = 0; i < 10; i++) {
+		HR(result = m_LightFx->Render(m_D3D->GetDeviceContext(), Cylinderedata.IndexCount, Cylinderedata.IndexOffset, Cylinderedata.VertexOffset, mCylWorld[i], viewMatrix, projectionMatrix, Direction, DiffuseColor, AmbeintColor, CameraPostion, SpecularColor, SpecularPower, m_Model->GetTexture()));
+	}
+
+	for (int i = 0; i < 10; i++) {
+		HR(result = m_LightFx->Render(m_D3D->GetDeviceContext(), Spheredata.IndexCount, Spheredata.IndexOffset, Spheredata.VertexOffset, mSphereWorld[i], viewMatrix, projectionMatrix, Direction, DiffuseColor, AmbeintColor, CameraPostion, SpecularColor, SpecularPower, m_Model->GetTexture()));
+	}
+	
+
+	
+
+
+
+
+
 
 	// 글자도 함께 돌아가지 않게 하기 위해 새로운 worldmatrix 대입
 	// 분리 필수

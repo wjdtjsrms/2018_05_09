@@ -27,14 +27,14 @@ public:
 
 	bool Initialize(ID3D11Device*, HWND);
 	void Shutdown();
-	bool Render(ID3D11DeviceContext*, int, DirectX::XMMATRIX&, DirectX::XMMATRIX&, DirectX::XMMATRIX&, DirectX::XMVECTOR&, DirectX::XMVECTOR&, DirectX::XMVECTOR&, DirectX::XMVECTOR&, DirectX::XMVECTOR&, float, ID3D11ShaderResourceView**);
+	bool Render(ID3D11DeviceContext*, int, int,int,DirectX::XMMATRIX&, DirectX::XMMATRIX&, DirectX::XMMATRIX&, DirectX::XMVECTOR&, DirectX::XMVECTOR&, DirectX::XMVECTOR&, DirectX::XMVECTOR&, DirectX::XMVECTOR&, float, ID3D11ShaderResourceView**);
 
 private:
 	bool InitializeShader(ID3D11Device*, HWND, const WCHAR*);
 	void ShutdownShader();
 	void OutputShaderErrorMessage(ID3D10Blob*, HWND, const WCHAR*);
 	bool SetFXParameters(ID3D11DeviceContext*, DirectX::XMMATRIX&, DirectX::XMMATRIX&, DirectX::XMMATRIX&, DirectX::XMVECTOR&, DirectX::XMVECTOR&, DirectX::XMVECTOR&, DirectX::XMVECTOR&, DirectX::XMVECTOR&, float, ID3D11ShaderResourceView**);
-	void RenderShader(ID3D11DeviceContext*, int);
+	void RenderShader(ID3D11DeviceContext*, int,int,int);
 
 	bool BuildGeometryBuffers(ID3D11Device*);
 	bool SetShaderVariableName(HWND);

@@ -40,6 +40,20 @@ private:
 		float tu, tv;
 		float nx, ny, nz;
 	};
+public:
+	struct InstanceData
+	{
+		InstanceData()
+			:VertexOffset(0),
+			IndexOffset(0),
+			IndexCount(0)
+		{}
+
+
+		int VertexOffset;
+		UINT IndexOffset;
+		UINT IndexCount;
+	};
 
 
 
@@ -53,7 +67,13 @@ public:
 	
 	void Render(ID3D11DeviceContext*);
 	int GetIndexCount();
+	int GetGridIndexCount();
 	ID3D11ShaderResourceView** GetTexture();
+
+	void GetBoxeData(InstanceData&) const;
+	void GetGrideData(InstanceData&) const;
+	void GetSphereeData(InstanceData&) const;
+	void GetCylindereData(InstanceData&) const;
 
 private:
 	bool InitializeBuffers(ID3D11Device*);
@@ -74,6 +94,8 @@ private:
 	float GetHeight(float,float) const;
 
 
+
+
 private:
 	ID3D11Buffer *m_vertexBuffer, *m_indexBuffer;
 	int m_vertexCount, m_indexCount;
@@ -81,7 +103,12 @@ private:
 	ModelType* m_model;
 	Obj_loader* m_parser;
 
-	UINT mGridIndexCount;
+	InstanceData m_BoxData;
+	InstanceData m_GridData;
+	InstanceData m_SphereData;
+	InstanceData m_CylinderData;
+
+
 };
 
 #endif

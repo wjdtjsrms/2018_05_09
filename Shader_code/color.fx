@@ -127,11 +127,11 @@ float4 PS(VertexOut pin) : SV_Target
         specular = pow(saturate(dot(reflection, pin.viewDirection)), gDirLight.SpecularPower);
 
     }
-    color = color * texColor;
+    color = color;
 
     color = saturate(color + specular); // clamp 0.0~1.0
 
-    return pin.Color;
+    return color;
 }
 
 technique11 ColorTech
